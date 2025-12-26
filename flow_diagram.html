@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Flow Diagram - Smart Resume Job Finder</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({startOnLoad:true});
+    </script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .description { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>System Flow Diagram for Smart Resume Job Finder</h1>
+    <div class="mermaid">
+flowchart TD
+    A[User Opens App] --> B[Flask App Serves index.html]
+    B --> C[User Uploads Resume or Pastes Text]
+    C --> D[POST /upload Endpoint]
+
+    D --> E[Extract Text from File if Uploaded]
+    E --> F[Preprocess Resume Text]
+
+    F --> G[Fetch Jobs from jobs.db]
+    G --> H[Compute TF-IDF Similarities]
+    H --> I[Compute Semantic Embeddings if Available]
+
+    I --> J[Combine Similarities (60% Emb + 40% TF-IDF)]
+    J --> K[Suggest Role based on Title Similarities]
+
+    K --> L[Return Top 10 Matches with Scores and Search URLs]
+    L --> M[Frontend Displays Results]
+
+    M --> N[User Clicks Job Search Buttons]
+    N --> O[Open LinkedIn/Indeed/Naukri URLs in New Tabs]
+
+    P[Setup Phase] --> Q[Run seed_jobs.py to Populate jobs.db]
+    Q --> R[Run app.py to Start Flask Server]
+
+    S[Optional] --> T[Run scrape_jobs.py for Additional Jobs]
+    T --> U[Save Scraped Jobs to DB]
+
+    classDef setup fill:#e1f5fe
+    classDef user fill:#f3e5f5
+    classDef backend fill:#e8f5e8
+    classDef frontend fill:#fff3e0
+
+    class A,B,C,M,N,O user
+    class D,E,F,G,H,I,J,K,L backend
+    class P,Q,R,S,T,U setup
+    </div>
+
+    <div class="description">
+        <h2>Description</h2>
+        <ul>
+            <li><strong>Setup Phase</strong>: Initialize the database with sample jobs using <code>seed_jobs.py</code>. Optionally scrape additional jobs with <code>scrape_jobs.py</code>.</li>
+            <li><strong>User Interaction</strong>: User accesses the web app, uploads a resume (PDF/DOCX/TXT or text), and clicks "Analyze Resume".</li>
+            <li><strong>Backend Processing</strong>: Flask extracts text, preprocesses it, fetches jobs, computes similarities using TF-IDF and sentence embeddings, suggests a role, and returns top matches.</li>
+            <li><strong>Frontend Display</strong>: Shows extracted text preview, suggested role, and job matches with buttons to open searches on job portals.</li>
+        </ul>
+        <p>To view the interactive diagram, open this file in a modern web browser (e.g., Chrome, Firefox). No changes have been made to the existing program files.</p>
+    </div>
+</body>
+</html>
