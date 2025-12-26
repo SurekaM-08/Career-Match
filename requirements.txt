@@ -1,0 +1,13 @@
+flask
+scikit-learn
+sentence-transformers
+numpy
+scipy
+pdfplumber
+python-docx
+torch
+webdriver-manager
+selenium
+beautifulsoup4
+pytesseract
+pillow
